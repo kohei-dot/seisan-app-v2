@@ -34,7 +34,7 @@ export function ResultScreen({ eventName, coefficient, participants, onBack }: P
               <th>購入</th>
               <th>最終</th>
               <th>チップ損益</th>
-              <th>場所代</th>
+              <th>支払った場所代</th>
               <th>精算額</th>
             </tr>
           </thead>
