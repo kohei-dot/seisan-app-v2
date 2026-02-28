@@ -1,0 +1,1 @@
+{"root":["./src/main.tsx","./src/types.ts","./src/components/inputmodal.tsx","./src/lib/supabase.ts","./src/logic/calculation.ts","./src/pages/sessionpage.tsx","./src/pages/toppage.tsx"],"version":"5.9.3"}

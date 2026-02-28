@@ -1,9 +1,9 @@
 :root {
-  --primary: #6366f1;
-  --primary-dark: #4f46e5;
+  --primary: #16a34a;
+  --primary-dark: #15803d;
   --danger: #ef4444;
   --danger-dark: #dc2626;
-  --success: #22c55e;
+  --success: #16a34a;
   --bg: #f1f5f9;
   --card-bg: #ffffff;
   --border: #e2e8f0;
@@ -104,7 +104,7 @@ body {
 
 .form-input:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.12);
 }
 
 /* ========== Buttons ========== */
@@ -190,7 +190,7 @@ body {
   font-size: 0.875rem;
   font-weight: 700;
   color: var(--primary);
-  background: rgba(99, 102, 241, 0.1);
+  background: rgba(22, 163, 74, 0.1);
   padding: 3px 12px;
   border-radius: 999px;
 }
@@ -224,7 +224,7 @@ body {
 }
 
 .add-participant-btn:active {
-  background: rgba(99, 102, 241, 0.08);
+  background: rgba(22, 163, 74, 0.08);
 }
 
 /* ========== Error ========== */
@@ -400,6 +400,207 @@ tbody tr:last-child td {
   font-size: 0.9375rem;
 }
 
+/* ========== Participant Row (SessionPage) ========== */
+
+.participant-row {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: background-color 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.participant-row:active {
+  background: #f8fafc;
+}
+
+.participant-row-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.participant-row-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.participant-row-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.badge-entered {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--success);
+  background: rgba(34, 197, 94, 0.1);
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.participant-row-values {
+  display: flex;
+  gap: 12px;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.participant-row-empty {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+/* ========== Add Participant Form ========== */
+
+.add-participant-form {
+  margin-bottom: 12px;
+}
+
+.add-participant-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.add-participant-buttons .btn {
+  flex: 1;
+}
+
+/* ========== Reasons List ========== */
+
+.reasons-list {
+  background: #fef2f2;
+  border: 1.5px solid #fecaca;
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.reason-item {
+  padding: 12px 14px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--danger);
+  border-bottom: 1px solid #fecaca;
+}
+
+.reason-item:last-child {
+  border-bottom: none;
+}
+
+/* ========== Modal ========== */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 100;
+  padding: 0 0 env(safe-area-inset-bottom);
+}
+
+.modal {
+  background: white;
+  border-radius: var(--radius) var(--radius) 0 0;
+  width: 100%;
+  max-width: 480px;
+  padding-bottom: 16px;
+}
+
+.modal-header {
+  padding: 20px 16px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.modal-title {
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.modal-body {
+  padding: 16px;
+}
+
+.modal-footer {
+  display: flex;
+  gap: 8px;
+  padding: 0 16px;
+}
+
+.modal-footer .btn {
+  flex: 1;
+}
+
+/* ========== Share Screen ========== */
+
+.share-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 20px 16px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  margin-bottom: 12px;
+}
+
+.share-message {
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.share-url-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+}
+
+.share-url-text {
+  flex: 1;
+  font-size: 0.8125rem;
+  color: var(--text);
+  word-break: break-all;
+  line-height: 1.4;
+}
+
+.btn-copy {
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 7px 12px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background-color 0.15s;
+}
+
+.btn-copy:active {
+  background: var(--primary-dark);
+}
+
+.btn-copy.copied {
+  background: #64748b;
+}
+
 /* ========== Desktop ========== */
 
 @media (min-width: 600px) {
@@ -416,6 +617,6 @@ tbody tr:last-child td {
   }
 
   .add-participant-btn:hover {
-    background: rgba(99, 102, 241, 0.06);
+    background: rgba(22, 163, 74, 0.06);
   }
 }

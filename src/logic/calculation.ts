@@ -1,35 +1,49 @@
-import type { Participant, ParticipantResult, Settlement, CalculationResult } from '../types'
+import type { DbParticipant, ParticipantResult, Settlement, CalculationResult } from '../types'
 
-export function parseNum(s: string): number {
-  const n = Number(s)
-  return isNaN(n) ? 0 : n
+export function checkCalculationReady(participants: DbParticipant[]): {
+  ready: boolean
+  reasons: string[]
+} {
+  const reasons: string[] = []
+
+  const unentered = participants.filter((p) => p.buy_chips === null || p.final_chips === null)
+  if (unentered.length > 0) {
+    unentered.forEach((p) => reasons.push(`${p.name}が入力していません`))
+  } else {
+    const totalBuy = participants.reduce((sum, p) => sum + (p.buy_chips ?? 0), 0)
+    const totalFinal = participants.reduce((sum, p) => sum + (p.final_chips ?? 0), 0)
+    if (totalBuy !== totalFinal) {
+      reasons.push(
+        `購入チップ${totalBuy.toLocaleString()}と最終チップ${totalFinal.toLocaleString()}が一致していません`,
+      )
+    }
+  }
+
+  return { ready: reasons.length === 0, reasons }
 }
 
 export function calculateResults(
-  participants: Participant[],
+  participants: DbParticipant[],
   coefficient: number,
 ): CalculationResult {
   const n = participants.length
   if (n === 0) return { results: [], settlements: [], hasFractionAdjustment: false }
 
-  const totalVenue = participants.reduce((sum, p) => sum + parseNum(p.venue), 0)
+  const totalVenue = participants.reduce((sum, p) => sum + p.venue_fee, 0)
   const avgVenue = totalVenue / n
 
-  // 各参加者の未丸め損益を計算
   const rawResults = participants.map((p) => {
-    const buyChips = parseNum(p.buyChips)
-    const finalChips = parseNum(p.finalChips)
-    const venue = parseNum(p.venue)
+    const buyChips = p.buy_chips ?? 0
+    const finalChips = p.final_chips ?? 0
+    const venue = p.venue_fee
     const chipPnL = (finalChips - buyChips) * coefficient
     const rawFinalPnL = chipPnL + (venue - avgVenue)
     return { id: p.id, name: p.name, buyChips, finalChips, venue, chipPnL, rawFinalPnL }
   })
 
-  // 四捨五入
   const roundedPnLs = rawResults.map((r) => Math.round(r.rawFinalPnL))
   const sum = roundedPnLs.reduce((a, b) => a + b, 0)
 
-  // 端数調整: 合計が0にならない場合、最も損している人を調整
   const hasFractionAdjustment = sum !== 0
   if (hasFractionAdjustment) {
     let worstIdx = 0
@@ -58,15 +72,10 @@ export function calculateResults(
   return { results, settlements, hasFractionAdjustment }
 }
 
-/**
- * 最小送金数で精算を最適化する。
- * 正のbalance = 受け取り側、負のbalance = 支払い側。
- */
 function minimizeSettlements(balances: { name: string; balance: number }[]): Settlement[] {
   const arr = balances.map((b) => ({ ...b }))
   const settlements: Settlement[] = []
 
-  // 昇順ソート（最も負の人が先頭、最も正の人が末尾）
   arr.sort((a, b) => a.balance - b.balance)
 
   let left = 0

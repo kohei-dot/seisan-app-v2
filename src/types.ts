@@ -1,18 +1,18 @@
-export type Screen = 'setup' | 'participants' | 'result'
-
-export interface Participant {
+export interface DbSession {
   id: string
-  name: string
-  buyChips: string
-  finalChips: string
-  venue: string
+  event_name: string
+  coefficient: number
+  created_at: string
 }
 
-export interface AppState {
-  screen: Screen
-  eventName: string
-  coefficient: string
-  participants: Participant[]
+export interface DbParticipant {
+  id: string
+  session_id: string
+  name: string
+  buy_chips: number | null
+  final_chips: number | null
+  venue_fee: number
+  created_at: string
 }
 
 export interface ParticipantResult {
